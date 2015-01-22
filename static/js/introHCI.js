@@ -10,9 +10,59 @@ $(document).ready(function() {
  */
 function initializePage() {
 	$("#testjs").click(function(e) {
-		$('.jumbotron h1').text("Javascript is connected");
+		$('.jumbotron h1').text("Javascript is doing its thang");
+		$("#testjs").text("Thinking thinking thinking...");
+		$(".jumbotron p").toggleClass("active");
 	});
+
+    $("#submitBtn").click(updateProject); 
 
 	// Add any additional listeners here
 	// example: $("#div-id").click(functionToCall);
+	$("a.thumbnail").click(projectClick);
+}
+
+function projectClick(e) {
+	/*// Some logging for debugging purposes
+	console.log("Project clicked");
+    // prevent the page from reloading 
+    e.preventDefault();
+    // In an event handler, $(this) refers to
+    // the object that triggered the event
+    $(this).css("background-color", "#7fff00");
+    */
+    // Cancel the default action, which prevents the page from reloading
+    e.preventDefault();
+
+    // In an event listener, $(this) is the leement that fired the event
+    var projectTitle = $(this).find("p").text();
+    var jumbotronHeader = $(".jumbotron h1");
+    console.log("Number of matching headers: " + jumbotronHeader.length);
+    jumbotronHeader.text(projectTitle);
+    jumbotronHeader.text()
+
+    var containingProject = $(this).closest(".project");
+    var description = $(containingProject).find(".project-description");
+    if (description.length == 0) {
+       $(containingProject).append("<div class='project-description'><p>Description of the project.</p></div>");
+       $(description).fadeIn();
+    } else {
+        if(description.is(':visible')){
+            $(description).fadeOut();
+        }
+        else{
+            $(description).fadeIn();
+        }
+       
+    }
+}
+
+function updateProject(e){
+    var projectID = $('#project').val();
+    $(projectID).animate({
+        width: $('#width').val()
+    });
+
+    var newText = $('#description').val();
+    $(projectID + " .project-description").text(newText);
 }
